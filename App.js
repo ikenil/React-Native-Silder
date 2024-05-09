@@ -110,165 +110,152 @@ const App = () => {
 
 
   return (
-    <View
-      style={{
-        width: '100%',
-        height: '100%',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}
-    >
-      <ImageBackground
-        source={{
-          uri: "https://png.pngtree.com/thumb_back/fw800/background/20231006/pngtree-3d-illustration-intriguing-white-cubical-abstract-background-with-high-resolution-image_13588786.png"
-        }}
+      <View
         style={{
           width: '100%',
           height: '100%',
-          opacity: 0.4
-        }}
-        resizeMode='cover'
-      >
-
-      </ImageBackground>
-      <Text
-        style={{
-          position: 'absolute',
-          top: '20%',
-          width: '80%',
-          textAlign: 'center',
-          fontSize: 25,
-          fontWeight: '600',
-          color: "#000"
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
       >
-        React Native image and video silder
-      </Text>
-      <View
-        style={{
-          position: 'absolute',
-          top: '35%',
-          width: '100%',
-          height: Dimensions.get('window').width * 0.9,
-          alignItems: 'center'
-        }}
-      >
-        <ScrollView
-          ref={scrollViewRef}
-          horizontal
-          pagingEnabled={true}  // Enables paging behavior
-          showsHorizontalScrollIndicator={false}  // Hides horizontal scroll indicators
+        <Text
           style={{
-            flex: 1,
-            width: Dimensions.get('window').width * 0.9
-          }}
-          clipChildren={true}
-          scrollEventThrottle={16}
-          onScroll={handleScroll}
-          onScrollBeginDrag={(event) => {
-            setOnSwipe(true)
-          }}
-          overScrollMode="never"
-          bounces={false}
-          onScrollEndDrag={(event) => {
-            if (onSwipe) {
-              const contentOffsetX = event.nativeEvent.contentOffset.x;
-              const contentSizeWidth = event.nativeEvent.contentSize.width;
-              const layoutMeasurementWidth = event.nativeEvent.layoutMeasurement.width;
-
-              // Check if at the first index and trying to scroll left
-              if (contentOffsetX === 0 && currentIndex == 0) {
-
-                scrollToIndex(data.length - 1)
-              }
-
-              // Check if at the last index and trying to scroll right
-              if (contentOffsetX + layoutMeasurementWidth === contentSizeWidth && currentIndex == data.length - 1) {
-
-                scrollToIndex(0)
-              }
-              videoRefs.current.forEach((videoRef, index) => {
-                if (videoRef && videoRef.current) {
-                  videoRef.current.seek(0); // Reset all videos to the beginning
-                }
-              });
-            }
-            setOnSwipe(false)
+            top: '20%',
+            width: '80%',
+            textAlign: 'center',
+            fontSize: 25,
+            fontWeight: '600',
+            color: "#000"
           }}
         >
-          {data.map((item, index) => {
-            return (
-              <View
-                key={index}
-                style={{
-                  width: Dimensions.get('window').width * 0.9, // Use the full width of the screen
-                  height: Dimensions.get('window').width * 0.9,
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
-                {item.is_video == 0 ? (<Image
-                  source={{ uri: item.attachments }}
-                  resizeMode='cover'
+          React Native image and video silder
+        </Text>
+        <View
+          style={{
+            top: '15%',
+            width: '100%',
+            height: Dimensions.get('window').width * 0.9,
+            alignItems: 'center'
+          }}
+        >
+          <ScrollView
+            ref={scrollViewRef}
+            horizontal
+            pagingEnabled={true}  // Enables paging behavior
+            showsHorizontalScrollIndicator={false}  // Hides horizontal scroll indicators
+            style={{
+              flex: 1,
+              width: Dimensions.get('window').width * 0.9
+            }}
+            clipChildren={true}
+            scrollEventThrottle={16}
+            onScroll={handleScroll}
+            onScrollBeginDrag={(event) => {
+              setOnSwipe(true)
+            }}
+            overScrollMode="never"
+            bounces={false}
+            onScrollEndDrag={(event) => {
+              if (onSwipe) {
+                const contentOffsetX = event.nativeEvent.contentOffset.x;
+                const contentSizeWidth = event.nativeEvent.contentSize.width;
+                const layoutMeasurementWidth = event.nativeEvent.layoutMeasurement.width;
+
+                // Check if at the first index and trying to scroll left
+                if (contentOffsetX === 0 && currentIndex == 0) {
+
+                  scrollToIndex(data.length - 1)
+                }
+
+                // Check if at the last index and trying to scroll right
+                if (contentOffsetX + layoutMeasurementWidth === contentSizeWidth && currentIndex == data.length - 1) {
+
+                  scrollToIndex(0)
+                }
+                videoRefs.current.forEach((videoRef, index) => {
+                  if (videoRef && videoRef.current) {
+                    videoRef.current.seek(0); // Reset all videos to the beginning
+                  }
+                });
+              }
+              setOnSwipe(false)
+            }}
+          >
+            {data.map((item, index) => {
+              return (
+                <View
+                  key={index}
                   style={{
-                    width: Dimensions.get('window').width * 0.9,  // Making the image a bit narrower than the container for aesthetics
-                    height: Dimensions.get('window').width * 0.9, // Fill the container height
-                    borderRadius: 10
+                    width: Dimensions.get('window').width * 0.9, // Use the full width of the screen
+                    height: Dimensions.get('window').width * 0.9,
+                    alignItems: 'center',
+                    justifyContent: 'center'
                   }}
-                />) : (
-                  <Video
-                    ref={videoRefs.current[index]}
+                >
+                  {item.is_video == 0 ? (<Image
                     source={{ uri: item.attachments }}
-                    controls={false}
-                    paused={index !== currentIndex} // Pause video if it's not the current slide
-                    repeat={false}
-                    onEnd={handleVideoEnd}
-                    resizeMode="cover"
-                    poster={item.img}
-                    posterResizeMode="cover"
+                    resizeMode='cover'
                     style={{
-                      width: '100%',
-                      height: Dimensions.get('window').width * 0.9,
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      bottom: 0,
-                      right: 0,
+                      width: Dimensions.get('window').width * 0.9,  // Making the image a bit narrower than the container for aesthetics
+                      height: Dimensions.get('window').width * 0.9, // Fill the container height
                       borderRadius: 10
                     }}
-                  />
-                )}
-              </View>
-            )
-          })}
-        </ScrollView>
+                  />) : (
+                    <Video
+                      ref={videoRefs.current[index]}
+                      source={{ uri: item.attachments }}
+                      controls={false}
+                      paused={index !== currentIndex} // Pause video if it's not the current slide
+                      repeat={false}
+                      onEnd={handleVideoEnd}
+                      resizeMode="cover"
+                      poster={item.img}
+                      posterResizeMode="cover"
+                      style={{
+                        width: '100%',
+                        height: Dimensions.get('window').width * 0.9,
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        bottom: 0,
+                        right: 0,
+                        borderWidth: 1,
+                        borderColor: "#000",
+                        borderRadius: 10
+                      }}
+                    />
+                  )}
+                </View>
+              )
+            })}
+          </ScrollView>
 
-        <View style={{ position: 'absolute', flexDirection: 'row', justifyContent: 'center', bottom: 10 }}>
-          {data.length > 1 && data.map((item, index) => (
-            index == currentIndex ? (<View
-              style={{
-                height: 8,
-                width: 15,
-                backgroundColor: "#24C9B6",
-                borderRadius: 50,
-                bottom: 10,
-                marginHorizontal: 5
-              }}
-            />) :
-              (<View
+          <View style={{ position: 'absolute', flexDirection: 'row', justifyContent: 'center', bottom: 10 }}>
+            {data.length > 1 && data.map((item, index) => (
+              index == currentIndex ? (<View
                 style={{
                   height: 8,
-                  width: 8,
-                  backgroundColor: "#58595B",
+                  width: 15,
+                  backgroundColor: "#24C9B6",
                   borderRadius: 50,
                   bottom: 10,
                   marginHorizontal: 5
                 }}
-              />)
-          ))}
+              />) :
+                (<View
+                  style={{
+                    height: 8,
+                    width: 8,
+                    backgroundColor: "#58595B",
+                    borderRadius: 50,
+                    bottom: 10,
+                    marginHorizontal: 5
+                  }}
+                />)
+            ))}
+          </View>
         </View>
-      </View>
-    </View >
+      </View >
   )
 }
 
